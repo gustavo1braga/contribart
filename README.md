@@ -1,50 +1,52 @@
+[![pt-br](https://img.shields.io/badge/lang-pt--br-green.svg)](https://github.com/gustavo1braga/contribart/blob/master/README.pt-br.md)
+
 # contribart
 
-Transforma seu histórico de contribuições do GitHub em arte — neon, minimalista ou pixel art — direto do terminal.
+Transform your GitHub commit history into art: **neon**, **minimalist**, or **pixel art**, straight from your terminal.
 
-![exemplo](docs/example_neon.png)
+![example](docs/example_neon.png)
 
-## Por que
+## Why
 
-O gráfico de contribuições padrão do GitHub é feio e igual para todo mundo. `contribart` reaproveita os mesmos dados para gerar uma imagem que você pode usar no seu README, no Twitter/LinkedIn, ou de wallpaper.
+GitHub's default contribution graph is plain and looks the same for everyone. `contribart` reuses the exact same data to generate an image you can showcase in your README, share on Twitter/LinkedIn, or use as a wallpaper.
 
-## Instalação
+## Installation
 
 ```bash
-git clone https://github.com/seu-usuario/contribart.git
+git clone https://github.com/gustavo1braga/contribart.git
 cd contribart
 pip install -r requirements.txt
 ```
 
-Crie um [Personal Access Token](https://github.com/settings/tokens) com escopo `read:user` e exporte:
+Create a [Personal Access Token](https://github.com/settings/tokens?utm_source=gemini) with the `read:user` scope and export it:
 
 ```bash
 export GITHUB_TOKEN=ghp_xxxxxxxxxxxx
 ```
 
-## Uso
+## Usage
 
 ```bash
 python -m contribart --user octocat --style neon
-python -m contribart --user octocat --style mono --out minha_arte.png
+python -m contribart --user octocat --style mono --out my_art.png
 python -m contribart --user octocat --style pixel
 ```
 
-## Estilos disponíveis
+## Available Styles
 
-| Estilo  | Descrição                                   |
-|---------|----------------------------------------------|
-| `neon`  | Glow magenta/ciano sobre fundo escuro         |
-| `mono`  | Verde GitHub clássico, minimalista            |
-| `pixel` | Downscale + upscale sem suavização (pixel art)|
+| Style | Description |
+| --- | --- |
+| `neon` | Magenta/cyan glow on a dark background |
+| `mono` | Classic GitHub green, minimalist |
+| `pixel` | Downscale + upscale without smoothing (pixel art) |
 
 ## Roadmap
 
-- [ ] Exportar como GIF animado (semana surgindo progressivamente)
-- [ ] Mais paletas de cor
-- [ ] Modo "poster" com nome do usuário e estatísticas
-- [ ] Publicar no PyPI (`pip install contribart`)
+* [ ] Export as animated GIF (weeks appearing progressively)
+* [ ] More color palettes
+* [ ] "Poster" mode with username and statistics
+* [ ] Publish to PyPI (`pip install contribart`)
 
-## Licença
+## License
 
 MIT
