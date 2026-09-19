@@ -10,6 +10,8 @@ Transform your GitHub commit history into art: **neon**, **minimalist**, or **pi
 
 ![example](docs/example2_ocean_neon.png)
 
+**Ocean** palette with **neon** style
+
 ## Why
 
 GitHub's default contribution graph is plain and looks the same for everyone. `contribart` reuses the exact same data to generate an image you can showcase in your README, share on Twitter/LinkedIn, or use as a wallpaper.
