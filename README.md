@@ -10,7 +10,7 @@ Transform your GitHub commit history into art: **neon**, **minimalist**, or **pi
 
 ![example](docs/example2_ocean_neon.png)
 
-**Ocean** palette with **neon** style
+**Ocean** palette with **neon** style. There's more variety than shown in this example.
 
 ## Why
 
