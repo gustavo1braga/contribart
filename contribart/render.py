@@ -2,6 +2,8 @@
 
 from PIL import Image, ImageDraw, ImageFilter
 
+from .palettes import PALETTES, STYLE_DEFAULTS, mix
+
 CELL_SIZE = 14
 GAP = 4
 MARGIN = 20
@@ -14,7 +16,8 @@ def _intensity_levels(grid: list[list[int]]) -> list[list[float]]:
     return [[v / max_val for v in week] for week in grid]
 
 
-def render(grid: list[list[int]], style: str = "neon") -> Image.Image:
+def render(grid: list[list[int]], style: str = "neon", palette: str | None = None) -> Image.Image:
+    pal = PALETTES[palette or STYLE_DEFAULTS[style]]
     levels = _intensity_levels(grid)
     n_weeks = len(grid)
 
@@ -22,11 +25,11 @@ def render(grid: list[list[int]], style: str = "neon") -> Image.Image:
     height = MARGIN * 2 + 7 * (CELL_SIZE + GAP)
 
     if style == "neon":
-        return _render_neon(levels, width, height)
+        return _render_neon(levels, width, height, pal)
     elif style == "mono":
-        return _render_mono(levels, width, height)
+        return _render_mono(levels, width, height, pal)
     elif style == "pixel":
-        return _render_pixel(levels, width, height)
+        return _render_pixel(levels, width, height, pal)
     else:
         raise ValueError(f"Estilo desconhecido: {style}")
 
@@ -37,38 +40,31 @@ def _cell_xy(week_idx: int, day_idx: int) -> tuple[int, int]:
     return x, y
 
 
-def _render_mono(levels, width, height) -> Image.Image:
-    img = Image.new("RGB", (width, height), color=(13, 17, 23))
+def _render_mono(levels, width, height, pal) -> Image.Image:
+    img = Image.new("RGB", (width, height), color=pal["bg"])
     draw = ImageDraw.Draw(img)
-    base = (57, 211, 83)  # verde GitHub
 
     for w, week in enumerate(levels):
         for d, level in enumerate(week):
             x, y = _cell_xy(w, d)
-            shade = tuple(int(c * (0.15 + 0.85 * level)) for c in base)
+            shade = mix(pal["bg"], pal["high"], 0.15 + 0.85 * level)
             draw.rounded_rectangle(
                 [x, y, x + CELL_SIZE, y + CELL_SIZE], radius=3, fill=shade
             )
     return img
 
 
-def _render_neon(levels, width, height) -> Image.Image:
-    # desenha numa camada separada para poder aplicar glow (blur) só nas células
-    base_img = Image.new("RGB", (width, height), color=(5, 5, 15)) 
+def _render_neon(levels, width, height, pal) -> Image.Image:
+    base_img = Image.new("RGB", (width, height), color=pal["bg"])
     glow_layer = Image.new("RGBA", (width, height), (0, 0, 0, 0))
     draw = ImageDraw.Draw(glow_layer)
-
-    hot = (255, 0, 200)   # magenta
-    cold = (0, 200, 255)  # ciano
 
     for w, week in enumerate(levels):
         for d, level in enumerate(week):
             if level <= 0:
                 continue
             x, y = _cell_xy(w, d)
-            color = tuple(
-                int(cold[i] + (hot[i] - cold[i]) * level) for i in range(3)
-            )
+            color = mix(pal["low"], pal["high"], level)
             alpha = int(80 + 175 * level)
             draw.rounded_rectangle(
                 [x, y, x + CELL_SIZE, y + CELL_SIZE],
@@ -82,18 +78,11 @@ def _render_neon(levels, width, height) -> Image.Image:
     return base_img.convert("RGB")
 
 
-def _render_pixel(levels, width, height) -> Image.Image:
-    # downscale grosseiro para dar efeito de pixel art, depois upscale sem suavizar
+def _render_pixel(levels, width, height, pal) -> Image.Image:
     small_w, small_h = len(levels) + 2, 9
-    small = Image.new("RGB", (small_w, small_h), color=(20, 20, 30))
+    small = Image.new("RGB", (small_w, small_h), color=pal["bg"])
 
-    palette = [
-        (20, 20, 30),
-        (0, 90, 60),
-        (0, 150, 90),
-        (60, 220, 130),
-        (170, 255, 200),
-    ]
+    palette = [pal["bg"]] + [mix(pal["low"], pal["high"], i / 3) for i in range(4)]
 
     for w, week in enumerate(levels):
         for d, level in enumerate(week):
