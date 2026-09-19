@@ -11,7 +11,7 @@ O gráfico de contribuições padrão do GitHub é feio e igual para todo mundo.
 ## Instalação
 
 ```bash
-git clone https://github.com/seu-usuario/contribart.git
+git clone https://github.com/gustavo1braga/contribart.git
 cd contribart
 pip install -r requirements.txt
 ```
@@ -28,23 +28,44 @@ export GITHUB_TOKEN=ghp_xxxxxxxxxxxx
 python -m contribart --user octocat --style neon
 python -m contribart --user octocat --style mono --out minha_arte.png
 python -m contribart --user octocat --style pixel
+python -m contribart --user octocat --style neon --palette sunset
 ```
+| Opção | Descrição | Padrão |
+|-------|-----------|--------|
+| `--user` | Usuário do GitHub (obrigatório) | - |
+| `--style` | Estilo visual: `neon`, `mono`, `pixel` | `neon` |
+| `--palette` | Paleta de cores (veja abaixo) | paleta padrão do estilo |
+| `--out` | Caminho do arquivo de saída (`.png`) | `<usuario>_<estilo>.png` |
 
 ## Estilos disponíveis
 
-| Estilo  | Descrição                                   |
-|---------|----------------------------------------------|
-| `neon`  | Glow magenta/ciano sobre fundo escuro         |
-| `mono`  | Verde GitHub clássico, minimalista            |
-| `pixel` | Downscale + upscale sem suavização (pixel art)|
+| Estilo  | Descrição                                        | Paleta padrão |
+|---------|--------------------------------------------------|---------------|
+| `neon`  | Efeito glow sobre fundo escuro                   | `neon`        |
+| `mono`  | Células lisas, minimalista                       | `github`      |
+| `pixel` | Downscale + upscale sem suavização (pixel art)   | `pixel`       |
+
+
+## Paletas de cores
+
+Qualquer paleta pode ser combinada com qualquer estilo usando `--palette`.
+
+| Paleta    | Descrição                                            |
+|-----------|------------------------------------------------------|
+| `neon`    | Ciano para magenta sobre fundo quase preto           |
+| `github`  | Verde clássico do GitHub sobre fundo escuro          |
+| `pixel`   | Verde escuro para menta sobre fundo escuro           |
+| `sunset`  | Coral para amarelo quente sobre fundo roxo escuro    |
+| `ocean`   | Azul profundo para água-marinha sobre fundo marinho  |
+| `dracula` | Azul acinzentado para rosa sobre o cinza do Dracula  |
 
 ## Roadmap
 
-- [ ] Exportar como GIF animado (semana surgindo progressivamente)
-- [ ] Mais paletas de cor
-- [ ] Modo "poster" com nome do usuário e estatísticas
+- [x] Mais paletas de cor (`--palette`)
+- [ ] Modo "poster" com nome do usuário e estatísticas (`--poster`)
+- [ ] Exportar como GIF animado (semana surgindo progressivamente) (`--gif`)
 - [ ] Publicar no PyPI (`pip install contribart`)
 
 ## Licença
 
-MIT
+MIT Licensw.
