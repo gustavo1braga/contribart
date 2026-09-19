@@ -24,7 +24,7 @@ cd contribart
 pip install -r requirements.txt
 ```
 
-Create a [Personal Access Token](https://github.com/settings/tokens?utm_source=gemini) with the `read:user` scope and export it:
+Create a [Personal Access Token](https://github.com/settings/tokens) with the `read:user` scope and export it:
 
 ```bash
 export GITHUB_TOKEN=ghp_xxxxxxxxxxxx
